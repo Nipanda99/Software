@@ -14,7 +14,7 @@ class Control(object):
 		super(Control, self).__init__()
 		self.args = args
                 self.subscriber=rospy.Subscriber("/duckiebot/joy",Joy,self.callback)
-                self.publisher=rospy.Publisher("/duckiebot/wheels_driver_node/car_cmd",Twist2DStamped,queue_size=10)
+                self.publisher=rospy.Publisher("/duckiebot/possible_cmd/duckietown_msgs/Twist2DStamped",Twist2DStamped,queue_size=10)
 
 	def callback(self,msg):
             comando=Twist2DStamped()
