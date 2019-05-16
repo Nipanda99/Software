@@ -5,6 +5,8 @@ from std_msgs.msg import String, Int32 # importar mensajes de ROS tipo String y 
 from geometry_msgs.msg import Twist # importar mensajes de ROS tipo geometry / Twist
 from sensor_msgs.msg import Joy
 from duckietown_msgs.msg import Twist2DStamped
+from template_cv import *
+from geometry_msgs.msg import Point
 
 
 
@@ -14,7 +16,10 @@ class Control(object):
 		super(Control, self).__init__()
 		self.args = args
                 self.subscriber=rospy.Subscriber("/duckiebot/joy",Joy,self.callback)
-                self.publisher=rospy.Publisher("/duckiebot/wheels_driver_node/car_cmd",Twist2DStamped,queue_size=10)
+                #self.publisher=rospy.Publisher("/duckiebot/possible_cmd/duckietown_msgs/Twist2DStamped",Twist2DStamped,queue_size=10)
+		self.pub=rospy.Publisher("/duckiebot/wheels_driver_node/car_cmd",Twist2DStamped,queue_size=10)
+
+
 
 	def callback(self,msg):
             comando=Twist2DStamped()
@@ -25,12 +30,14 @@ class Control(object):
                comando.v=0
                comando.omega=0
 	    print 1
-            self.publisher.publish(comando)  
+            self.pub.publish(comando) 
+
+		 
             
 	
 
 def main():
-	rospy.init_node('test') #creacion y registro del nodo!
+	rospy.init_node('controles') #creacion y registro del nodo!
 
 	obj = Control('args') # Crea un objeto del tipo Template, cuya definicion se encuentra arriba
 
